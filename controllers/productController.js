@@ -1,10 +1,26 @@
-const { User } = require("../models");
+const { Product } = require("../models");
+
 
 // Display a listing of the resource.
-async function index(req, res) {}
+async function index(req, res) {
+  const product = await Product.findByPk(req.params.id);
+
+  res.json(product);
+}
 
 // Display the specified resource.
-async function show(req, res) {}
+async function show(req, res) {
+  const products = await Product.findAll()
+
+  console.log(products);
+  res.json(products);
+}
+
+async function showPopular(req, res) {
+  const products = await Product.findAll({where: {popular: 1}})
+  
+  res.json(products);
+}
 
 // Show the form for creating a new resource
 async function create(req, res) {}
@@ -27,6 +43,7 @@ async function destroy(req, res) {}
 module.exports = {
   index,
   show,
+  showPopular,
   create,
   store,
   edit,

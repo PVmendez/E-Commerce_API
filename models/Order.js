@@ -1,25 +1,28 @@
 module.exports = (sequelize, Model, DataTypes) => {
-  class User extends Model {}
+  class Order extends Model {}
 
-  User.init(
+  Order.init(
     {
       id: {
         type: DataTypes.BIGINT.UNSIGNED,
         primaryKey: true,
         autoIncrement: true,
       },
-      firstname: {
-        type: DataTypes.STRING,
+      buyer: {
+        type: DataTypes.JSON,
       },
-      lastname: {
+      products: {
+        type: DataTypes.JSON,
+      },
+      state: {
         type: DataTypes.STRING,
       },
     },
     {
       sequelize,
-      modelName: "user",
+      modelName: "Order",
     },
   );
 
-  return User;
+  return Order;
 };
