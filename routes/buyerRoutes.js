@@ -3,7 +3,7 @@ const buyerRouter = express.Router();
 const buyerController = require("../controllers/buyerController");
 // Rutas de Compradores:
 // ...
-buyerRouter.get("/",  buyerController.index)
-buyerRouter.get("/login/:email", buyerController.show);
+buyerRouter.post("/register",  buyerController.singUp)
+buyerRouter.post("/login", buyerController.login);
 
 module.exports = buyerRouter; 
