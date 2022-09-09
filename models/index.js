@@ -21,8 +21,11 @@ const Product = require("./Product")(sequelize, Model, DataTypes);
 // entre los mismos...
 
 Order.hasMany(Buyer);
+Buyer.belongsTo(Order);
 Product.hasMany(Order);
+Order.belongsTo(Product);
 Category.hasMany(Product);
+Product.belongsTo(Category);
 
 module.exports = {
   sequelize,
@@ -30,5 +33,5 @@ module.exports = {
   Buyer,
   Category,
   Order,
-  Product
+  Product,
 };
