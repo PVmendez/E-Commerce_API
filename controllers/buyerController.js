@@ -19,6 +19,7 @@ const singUp = async (req, res) => {
 
 async function login(req, res) {
   const buyer = await Buyer.findOne({ where: {email: req.body.user.email}});
+
   if (!buyer) {
     return res.status(400).json({ msg: "User not found" });
   }
