@@ -2,7 +2,11 @@ const { Product } = require("../models");
 
 // Display a listing of the resource.
 async function index(req, res) {
-  const product = await Product.findByPk(req.params.id);
+  const product = await Product.findOne({
+    where: {
+      slug: req.params.key,
+    },
+  });
 
   res.json(product);
 }
@@ -11,28 +15,13 @@ async function index(req, res) {
 async function show(req, res) {
   const queries = {};
   if (req.query.popular) {
-    queries.popular = req.query.popular;
+    queries.popular = 1;
   }
   if (req.query.category) {
     queries.CategoryId = req.query.category;
   }
   const products = await Product.findAll({ where: queries });
-
-  console.log(products);
   res.json(products);
-}
-
-async function showPopular(req, res) {
-  const products = await Product.findAll({ where: { popular: 1 } });
-
-  res.json(products);
-}
-
-async function showCategory(req, res) {
-  if (req.params.id === 0) {
-    const products = await Product.findAll({ where: { CategoryId: req.params.id } });
-    res.json(products);
-  }
 }
 
 // Show the form for creating a new resource
@@ -56,8 +45,6 @@ async function destroy(req, res) {}
 module.exports = {
   index,
   show,
-  showPopular,
-  showCategory,
   create,
   store,
   edit,
