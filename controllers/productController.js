@@ -25,7 +25,23 @@ async function show(req, res) {
 }
 
 // Show the form for creating a new resource
-async function create(req, res) {}
+async function random(req, res) {
+  const array = [];
+  for (let i = 0; array.length < 4; i++) {
+    const id = Math.floor(Math.random() * 16) + 1;
+
+    if (array.indexOf(id) === -1 && id !== req.params.id) {
+      array.push(id);
+    }
+  }
+
+  const productArray = [];
+  for (let i = 0; i < array.length; i++) {
+    const product = await Product.findOne({ where: { id: array[i] } });
+    productArray.push(product);
+  }
+  res.json(productArray);
+}
 
 // Store a newly created resource in storage.
 async function store(req, res) {}
@@ -45,9 +61,9 @@ async function destroy(req, res) {}
 module.exports = {
   index,
   show,
-  create,
   store,
   edit,
   update,
   destroy,
+  random,
 };

@@ -5,5 +5,6 @@ const productController = require("../controllers/productController");
 // To Do:
 productsRouter.get("/", productController.show);
 productsRouter.get("/:key", productController.index);
+productsRouter.get("/random/:id", productController.random);
 
 module.exports = productsRouter;
