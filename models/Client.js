@@ -1,12 +1,12 @@
 module.exports = (sequelize, Model, DataTypes) => {
-  class Buyer extends Model {}
+  class Client extends Model {}
 
-  Buyer.init(
+  Client.init(
     {
       id: {
         type: DataTypes.BIGINT.UNSIGNED,
         primaryKey: true,
-        autoIncrement: true
+        autoIncrement: true,
       },
       firstName: {
         type: DataTypes.STRING,
@@ -16,6 +16,7 @@ module.exports = (sequelize, Model, DataTypes) => {
       },
       email: {
         type: DataTypes.STRING,
+        unique: true,
       },
       password: {
         type: DataTypes.STRING,
@@ -28,13 +29,13 @@ module.exports = (sequelize, Model, DataTypes) => {
       },
       orderList: {
         type: DataTypes.JSON,
-      }
+      },
     },
     {
       sequelize,
-      modelName: "Buyer",
+      modelName: "Client",
     },
   );
 
-  return Buyer;
+  return Client;
 };

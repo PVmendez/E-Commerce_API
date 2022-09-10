@@ -6,7 +6,7 @@ module.exports = (sequelize, Model, DataTypes) => {
       id: {
         type: DataTypes.BIGINT.UNSIGNED,
         primaryKey: true,
-        autoIncrement: true
+        autoIncrement: true,
       },
       firstName: {
         type: DataTypes.STRING,
@@ -16,15 +16,16 @@ module.exports = (sequelize, Model, DataTypes) => {
       },
       email: {
         type: DataTypes.STRING,
+        unique: true,
       },
       password: {
         type: DataTypes.STRING,
-      }
+      },
     },
     {
       sequelize,
       modelName: "Admin",
-    }
+    },
   );
 
   return Admin;

@@ -9,7 +9,14 @@ async function index(req, res) {
 
 // Display the specified resource.
 async function show(req, res) {
-  const products = await Product.findAll();
+  const queries = {};
+  if (req.query.popular) {
+    queries.popular = req.query.popular;
+  }
+  if (req.query.category) {
+    queries.CategoryId = req.query.category;
+  }
+  const products = await Product.findAll({ where: queries });
 
   console.log(products);
   res.json(products);
@@ -22,10 +29,7 @@ async function showPopular(req, res) {
 }
 
 async function showCategory(req, res) {
-  if (req.params.id == 0) {
-    const products = await Product.findAll();
-    res.json(products);
-  } else {
+  if (req.params.id === 0) {
     const products = await Product.findAll({ where: { CategoryId: req.params.id } });
     res.json(products);
   }

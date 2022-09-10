@@ -11,7 +11,7 @@ module.exports = async () => {
     },
     {
       id: 2,
-      lastName: "Felipe",
+      firstName: "Felipe",
       lastName: "Arzuaga",
       email: "felipe.arzuaga@gmail.com",
       password: "4321",
@@ -23,7 +23,7 @@ module.exports = async () => {
       email: "sofia.valdez@gmail.com",
       password: "9999",
     },
-  ]
+  ];
 
   await Admin.bulkCreate(admin);
   console.log("[Database] Se corrió el seeder de Admin.");
