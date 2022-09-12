@@ -29,7 +29,7 @@ async function index(req, res) {
 async function random(req, res) {
   const products = await Product.findAll({
     where: { id: { [Op.ne]: req.params.id } },
-    order: sequelize.random,
+    order: sequelize.random(),
     limit: 4,
   });
   res.json(products);
