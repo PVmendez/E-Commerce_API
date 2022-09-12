@@ -5,7 +5,7 @@ const verifyToken = require("../middlewares/verifyToken");
 // Rutas de Compradores:
 // ...
 
-clientsRouter.post("/register", clientsController.singUp);
+clientsRouter.post("/register", clientsController.store);
 clientsRouter.post("/login", clientsController.login);
 clientsRouter.post("/payment", verifyToken, clientsController.payment);
 
