@@ -37,15 +37,18 @@ module.exports = (sequelize, Model, DataTypes) => {
       sequelize,
       modelName: "Client",
       hooks: {
-        beforeCreate: async (user) => {
+        beforeCreate: (user) => {
           if (user.password) {
-            const salt = await bcrypt.genSaltSync(10, "a");
+            const salt = bcrypt.genSaltSync(10, "a");
             user.password = bcrypt.hashSync(user.password, salt);
           }
         },
       },
     },
   );
-
+  Client.prototype.ComparePassword = async (client, password) => {
+    const verifyPassword = await bcrypt.compare(password, client.password);
+    return verifyPassword;
+  };
   return Client;
 };

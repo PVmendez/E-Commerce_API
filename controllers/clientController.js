@@ -26,10 +26,9 @@ async function login(req, res) {
   if (!client) {
     return res.status(404).json({ msg: "User not found" });
   }
+  const verified = await Client.prototype.ComparePassword(client, req.body.user.password);
 
-  const verifyPassword = await bcrypt.compare(req.body.user.password, client.password);
-
-  if (!verifyPassword) {
+  if (!verified) {
     return res.status(401).json({ msg: "Invalid Password" });
   }
   const token = jwt.sign({ id: client.id, firstName: client.firstName }, process.env.JWT_SECRET);
