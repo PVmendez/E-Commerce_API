@@ -1,10 +1,11 @@
 const { Product } = require("../models");
-
+const { Op } = require("sequelize");
+const { sequelize } = require("../models/index");
 // Display a listing of the resource.
-async function index(req, res) {
+async function show(req, res) {
   const product = await Product.findOne({
     where: {
-      slug: req.params.key,
+      slug: req.params.slug,
     },
   });
 
@@ -12,7 +13,7 @@ async function index(req, res) {
 }
 
 // Display the specified resource.
-async function show(req, res) {
+async function index(req, res) {
   const queries = {};
   if (req.query.popular) {
     queries.popular = 1;
@@ -26,21 +27,12 @@ async function show(req, res) {
 
 // Show the form for creating a new resource
 async function random(req, res) {
-  const array = [];
-  for (let i = 0; array.length < 4; i++) {
-    const id = Math.floor(Math.random() * 16) + 1;
-
-    if (array.indexOf(id) === -1 && id !== req.params.id) {
-      array.push(id);
-    }
-  }
-
-  const productArray = [];
-  for (let i = 0; i < array.length; i++) {
-    const product = await Product.findOne({ where: { id: array[i] } });
-    productArray.push(product);
-  }
-  res.json(productArray);
+  const products = await Product.findAll({
+    where: { id: { [Op.ne]: req.params.id } },
+    order: sequelize.random,
+    limit: 4,
+  });
+  res.json(products);
 }
 
 // Store a newly created resource in storage.

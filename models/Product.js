@@ -10,24 +10,31 @@ module.exports = (sequelize, Model, DataTypes) => {
       },
       name: {
         type: DataTypes.STRING,
+        allowNull: false,
       },
       description: {
         type: DataTypes.STRING,
+        allowNull: false,
       },
       image: {
         type: DataTypes.STRING,
+        allowNull: false,
       },
       price: {
-        type: DataTypes.REAL,
+        type: DataTypes.DECIMAL(10, 2),
+        allowNull: false,
       },
       stock: {
         type: DataTypes.INTEGER,
+        allowNull: false,
       },
       popular: {
         type: DataTypes.BOOLEAN,
+        defaultValue: false,
       },
       slug: {
         type: DataTypes.STRING,
+        allowNull: false,
       },
     },
     {

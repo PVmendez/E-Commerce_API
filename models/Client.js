@@ -1,7 +1,12 @@
 const bcrypt = require("bcrypt");
 
 module.exports = (sequelize, Model, DataTypes) => {
-  class Client extends Model {}
+  class Client extends Model {
+    async comparePassword(password) {
+      const verifyPassword = await bcrypt.compare(password, this.password);
+      return verifyPassword;
+    }
+  }
 
   Client.init(
     {
@@ -46,9 +51,6 @@ module.exports = (sequelize, Model, DataTypes) => {
       },
     },
   );
-  Client.prototype.ComparePassword = async (client, password) => {
-    const verifyPassword = await bcrypt.compare(password, client.password);
-    return verifyPassword;
-  };
+
   return Client;
 };

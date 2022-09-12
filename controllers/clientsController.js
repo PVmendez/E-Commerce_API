@@ -2,7 +2,7 @@ const { Client } = require("../models");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-const singUp = async (req, res) => {
+const store = async (req, res) => {
   await Client.create({
     firstName: req.body.user.firstname,
     lastName: req.body.user.lastname,
@@ -26,7 +26,7 @@ async function login(req, res) {
   if (!client) {
     return res.status(404).json({ msg: "User not found" });
   }
-  const verified = await Client.prototype.ComparePassword(client, req.body.user.password);
+  const verified = await client.comparePassword(req.body.user.password);
 
   if (!verified) {
     return res.status(401).json({ msg: "Invalid Password" });
@@ -42,7 +42,7 @@ async function payment(req, res) {
 // ...
 
 module.exports = {
-  singUp,
+  store,
   login,
   payment,
 };
