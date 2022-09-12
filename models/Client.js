@@ -1,3 +1,5 @@
+const bcrypt = require("bcrypt");
+
 module.exports = (sequelize, Model, DataTypes) => {
   class Client extends Model {}
 
@@ -34,6 +36,14 @@ module.exports = (sequelize, Model, DataTypes) => {
     {
       sequelize,
       modelName: "Client",
+      hooks: {
+        beforeCreate: async (user) => {
+          if (user.password) {
+            const salt = await bcrypt.genSaltSync(10, "a");
+            user.password = bcrypt.hashSync(user.password, salt);
+          }
+        },
+      },
     },
   );
 

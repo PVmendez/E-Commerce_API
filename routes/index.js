@@ -1,10 +1,10 @@
 const productsRoutes = require("./productsRoutes");
 const adminRoutes = require("./adminRoutes");
-const buyerRouter = require("./buyerRoutes");
+const clientRouter = require("./clientRoutes");
 
 module.exports = (app) => {
   app.use("/products", productsRoutes);
   app.use("/admin", adminRoutes);
-  app.use("/buyers", buyerRouter);
+  app.use("/clients", clientRouter);
 };
-buyerRouter;
+// buyerRouter;

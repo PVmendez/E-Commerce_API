@@ -28,13 +28,12 @@ module.exports = (sequelize, Model, DataTypes) => {
       },
       slug: {
         type: DataTypes.STRING,
-      }
-
+      },
     },
     {
       sequelize,
       modelName: "Product",
-    }
+    },
   );
 
   return Product;
