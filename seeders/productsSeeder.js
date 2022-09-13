@@ -67,7 +67,7 @@ module.exports = async () => {
       stock: 20,
       popular: false,
       CategoryId: 1,
-      slug: "Pistazie",
+      slug: "Kirshe",
     },
     {
       id: 7,
