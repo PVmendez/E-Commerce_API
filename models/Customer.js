@@ -1,14 +1,14 @@
 const bcrypt = require("bcrypt");
 
 module.exports = (sequelize, Model, DataTypes) => {
-  class Client extends Model {
+  class Customer extends Model {
     async comparePassword(password) {
       const verifyPassword = await bcrypt.compare(password, this.password);
       return verifyPassword;
     }
   }
 
-  Client.init(
+  Customer.init(
     {
       id: {
         type: DataTypes.BIGINT.UNSIGNED,
@@ -40,7 +40,7 @@ module.exports = (sequelize, Model, DataTypes) => {
     },
     {
       sequelize,
-      modelName: "Client",
+      modelName: "customer",
       hooks: {
         beforeCreate: (user) => {
           if (user.password) {
@@ -52,5 +52,5 @@ module.exports = (sequelize, Model, DataTypes) => {
     },
   );
 
-  return Client;
+  return Customer;
 };
