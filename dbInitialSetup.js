@@ -8,6 +8,6 @@ module.exports = async () => {
   await require("./seeders/categorySeeder")();
   await require("./seeders/productsSeeder")();
   await require("./seeders/adminSeeder")();
-  await require("./seeders/clientSeeder")();
+  await require("./seeders/customerSeeder")();
   console.log("[Database] ¡Los datos de prueba fueron insertados!");
 };

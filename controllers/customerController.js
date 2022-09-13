@@ -1,9 +1,9 @@
-const { Client } = require("../models");
+const { Customer } = require("../models");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 const store = async (req, res) => {
-  await Client.create({
+  await Customer.create({
     firstName: req.body.user.firstname,
     lastName: req.body.user.lastname,
     email: req.body.user.email,
@@ -21,17 +21,20 @@ const store = async (req, res) => {
 };
 
 async function login(req, res) {
-  const client = await Client.findOne({ where: { email: req.body.user.email } });
+  const customer = await Customer.findOne({ where: { email: req.body.user.email } });
 
-  if (!client) {
+  if (!customer) {
     return res.status(404).json({ msg: "User not found" });
   }
-  const verified = await client.comparePassword(req.body.user.password);
+  const verified = await customer.comparePassword(req.body.user.password);
 
   if (!verified) {
     return res.status(401).json({ msg: "Invalid Password" });
   }
-  const token = jwt.sign({ id: client.id, firstName: client.firstName }, process.env.JWT_SECRET);
+  const token = jwt.sign(
+    { id: customer.id, firstName: customer.firstName },
+    process.env.JWT_SECRET,
+  );
   res.json({ token });
 }
 

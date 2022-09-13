@@ -8,7 +8,7 @@ module.exports = (sequelize, Model, DataTypes) => {
         primaryKey: true,
         autoIncrement: true,
       },
-      buyer: {
+      customerData: {
         type: DataTypes.JSON,
       },
       products: {
@@ -20,7 +20,7 @@ module.exports = (sequelize, Model, DataTypes) => {
     },
     {
       sequelize,
-      modelName: "Order",
+      modelName: "order",
     },
   );
 
