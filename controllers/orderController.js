@@ -1,7 +1,10 @@
 const { Customer, Order } = require("../models");
 
 // Display a listing of the resource.
-async function index(req, res) {}
+async function index(req, res) {
+  const orders = await Order.findAll({ where: { customerId: req.auth.id } });
+  res.json({ orders });
+}
 
 // Display the specified resource.
 async function show(req, res) {}
