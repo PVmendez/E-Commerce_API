@@ -1,7 +1,11 @@
 const express = require("express");
-const adminRouter = express.Router();
+const administratorsRouter = express.Router();
+const adminController = require("../controllers/adminController");
 
 // Rutas del Admin:
 // ...
 
-module.exports = adminRouter;
+administratorsRouter.post("/register", adminController.store);
+administratorsRouter.post("/login", adminController.login);
+
+module.exports = administratorsRouter;
