@@ -1,7 +1,7 @@
-const { Client } = require("../models");
+const { Customer } = require("../models");
 
 module.exports = async () => {
-  const client = [
+  const customer = [
     {
       id: 1,
       firstName: "Carlos",
@@ -34,6 +34,6 @@ module.exports = async () => {
     },
   ];
 
-  await Client.bulkCreate(client);
-  console.log("[Database] Se corrió el seeder de Buyer.");
+  await Customer.bulkCreate(customer);
+  console.log("[Database] Se corrió el seeder de Customer.");
 };
