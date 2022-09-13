@@ -1,12 +1,16 @@
 const express = require("express");
 const clientsRouter = express.Router();
 const clientsController = require("../controllers/clientsController");
-const verifyToken = require("../middlewares/verifyToken");
+const { expressjwt: jwt } = require("express-jwt");
 // Rutas de Compradores:
 // ...
 
 clientsRouter.post("/register", clientsController.store);
 clientsRouter.post("/login", clientsController.login);
-clientsRouter.post("/payment", verifyToken, clientsController.payment);
+clientsRouter.post(
+  "/payment",
+  jwt({ secret: process.env.JWT_SECRET, algorithms: ["HS256"] }),
+  clientsController.payment,
+);
 
 module.exports = clientsRouter;

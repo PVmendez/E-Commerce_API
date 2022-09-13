@@ -1,7 +1,8 @@
 const jwt = require("jsonwebtoken");
 
 module.exports = (req, res, next) => {
-  const decoded = jwt.verify(req.body.token, process.env.JWT_SECRET);
+  console.log(req.headers.authorization);
+  const decoded = jwt.verify(req.headers.authorization, process.env.JWT_SECRET);
   if (decoded.id && decoded.firstName) {
     next();
   } else {
