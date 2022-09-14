@@ -3,6 +3,13 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 const store = async (req, res) => {
+
+  const customer = await Customer.findOne({ where: { email: req.body.user.email } });
+
+  if (customer) {
+    return res.status(404).json({ msg: "User exist" });
+  }
+
   await Customer.create({
     firstName: req.body.user.firstname,
     lastName: req.body.user.lastname,
