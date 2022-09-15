@@ -1,9 +1,12 @@
-const { Admin } = require("../models");
+const { Admin, Order } = require("../models");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 // Display a listing of the resource.
-async function index(req, res) {}
+async function index(req, res) {
+  const orders = await Order.findAll();
+  res.json({ orders });
+}
 
 // Display the specified resource.
 async function show(req, res) {}
@@ -40,7 +43,11 @@ async function login(req, res) {
 }
 
 // Update the specified resource in storage.
-async function update(req, res) {}
+async function update(req, res) {
+  console.log(req.body);
+  const order = await Order.update({ state: req.body.state }, { where: { id: req.body.id } });
+  res.json({ order });
+}
 
 // Remove the specified resource from storage.
 async function destroy(req, res) {}

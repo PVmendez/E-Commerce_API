@@ -4,7 +4,8 @@ const adminController = require("../controllers/adminController");
 
 // Rutas del Admin:
 // ...
-
+administratorsRouter.get("/orders", adminController.index);
+administratorsRouter.patch("/orders", adminController.update);
 administratorsRouter.post("/register", adminController.store);
 administratorsRouter.post("/login", adminController.login);
 
