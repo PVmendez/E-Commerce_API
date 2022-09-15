@@ -1,19 +1,27 @@
 const { Admin, Order, Product, Category } = require("../models");
-const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 // Display a listing of the resource.
+async function index(req, res) {
+  const admins = await Admin.findAll();
+  res.json(admins);
+}
+
 async function indexOrders(req, res) {
   const orders = await Order.findAll();
   res.json({ orders });
 }
+
 async function indexProducts(req, res) {
   const products = await Product.findAll({ include: Category });
   res.json({ products });
 }
 
 // Display the specified resource.
-async function show(req, res) {}
+async function show(req, res) {
+  const admin = await Admin.findOne({where: {id: req.params.id}});
+  res.json(admin);
+}
 
 // Store a newly created resource in storage.
 const store = async (req, res) => {
@@ -47,11 +55,32 @@ async function login(req, res) {
 }
 
 // Update the specified resource in storage.
+async function update(req, res) {
+  console.log(req.body)
+  await Admin.update(
+    {
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      email: req.body.email,
+      password: req.body.password
+    },
+    {
+      where: { id: req.params.id }
+    }
+  ).then(() => {
+    res.status(201).json("updated");
+  })
+  .catch((error) => {
+    res.status(409).json({ error });
+  });
+}
+
 async function updateOrder(req, res) {
   console.log(req.body);
   const order = await Order.update({ state: req.body.state }, { where: { id: req.body.id } });
   res.json({ order });
 }
+
 async function updateProducts(req, res) {
   console.log("OK");
   console.log(req.body);
@@ -67,7 +96,9 @@ async function updateProducts(req, res) {
   );
 }
 // Remove the specified resource from storage.
-async function destroy(req, res) {}
+async function destroy(req, res) {
+  await Admin.destroy({ where: { id: req.body.id } });
+}
 
 // Otros handlers...
 // ...
@@ -75,9 +106,11 @@ async function destroy(req, res) {}
 module.exports = {
   indexOrders,
   indexProducts,
+  index,
   show,
   store,
   login,
+  update,
   updateOrder,
   updateProducts,
   destroy,
