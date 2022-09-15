@@ -11,7 +11,7 @@ module.exports = async () => {
       price: 2.35,
       stock: 20,
       popular: true,
-      CategoryId: 1,
+      categoryId: 1,
       slug: "Pistazie",
     },
     {
@@ -22,7 +22,7 @@ module.exports = async () => {
       price: 4.53,
       stock: 20,
       popular: false,
-      CategoryId: 1,
+      categoryId: 1,
       slug: "Karamel",
     },
     {
@@ -33,7 +33,7 @@ module.exports = async () => {
       price: 3.98,
       stock: 20,
       popular: false,
-      CategoryId: 1,
+      categoryId: 1,
       slug: "Yam",
     },
     {
@@ -44,7 +44,7 @@ module.exports = async () => {
       price: 2.58,
       stock: 20,
       popular: false,
-      CategoryId: 1,
+      categoryId: 1,
       slug: "Minze",
     },
     {
@@ -55,7 +55,7 @@ module.exports = async () => {
       price: 3.29,
       stock: 20,
       popular: true,
-      CategoryId: 1,
+      categoryId: 1,
       slug: "Kokosnuss",
     },
     {
@@ -66,8 +66,8 @@ module.exports = async () => {
       price: 2.11,
       stock: 20,
       popular: false,
-      CategoryId: 1,
-      slug: "Pistazie",
+      categoryId: 1,
+      slug: "Kirshe",
     },
     {
       id: 7,
@@ -77,7 +77,7 @@ module.exports = async () => {
       price: 1.95,
       stock: 20,
       popular: true,
-      CategoryId: 1,
+      categoryId: 1,
       slug: "Zapallo",
     },
     {
@@ -88,7 +88,7 @@ module.exports = async () => {
       price: 4.65,
       stock: 20,
       popular: false,
-      CategoryId: 1,
+      categoryId: 1,
       slug: "Feige",
     },
     {
@@ -99,7 +99,7 @@ module.exports = async () => {
       price: 4.1,
       stock: 20,
       popular: false,
-      CategoryId: 1,
+      categoryId: 1,
       slug: "Zitrone",
     },
     {
@@ -111,7 +111,7 @@ module.exports = async () => {
       price: 1.2,
       stock: 20,
       popular: false,
-      CategoryId: 1,
+      categoryId: 1,
       slug: "Beeren",
     },
     {
@@ -122,7 +122,7 @@ module.exports = async () => {
       price: 4.39,
       stock: 20,
       popular: true,
-      CategoryId: 1,
+      categoryId: 1,
       slug: "Zucker",
     },
     {
@@ -134,7 +134,7 @@ module.exports = async () => {
       price: 3.81,
       stock: 20,
       popular: false,
-      CategoryId: 1,
+      categoryId: 1,
       slug: "Orange",
     },
     {
@@ -146,7 +146,7 @@ module.exports = async () => {
       price: 1.86,
       stock: 20,
       popular: false,
-      CategoryId: 2,
+      categoryId: 2,
       slug: "Kaffee",
     },
     {
@@ -157,7 +157,7 @@ module.exports = async () => {
       price: 1.55,
       stock: 20,
       popular: false,
-      CategoryId: 2,
+      categoryId: 2,
       slug: "Orangelikor",
     },
     {
@@ -169,7 +169,7 @@ module.exports = async () => {
       price: 3.06,
       stock: 20,
       popular: false,
-      CategoryId: 2,
+      categoryId: 2,
       slug: "Mandel",
     },
     {
@@ -181,7 +181,7 @@ module.exports = async () => {
       price: 1.01,
       stock: 20,
       popular: false,
-      CategoryId: 2,
+      categoryId: 2,
       slug: "Haselnuss",
     },
   ];

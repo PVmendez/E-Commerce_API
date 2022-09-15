@@ -1,11 +1,20 @@
-const { Admin } = require("../models");
-const bcrypt = require("bcrypt");
+const { Admin, Order, Product, Category } = require("../models");
 const jwt = require("jsonwebtoken");
 
 // Display a listing of the resource.
 async function index(req, res) {
   const admins = await Admin.findAll();
   res.json(admins);
+}
+
+async function indexOrders(req, res) {
+  const orders = await Order.findAll();
+  res.json({ orders });
+}
+
+async function indexProducts(req, res) {
+  const products = await Product.findAll({ include: Category });
+  res.json({ products });
 }
 
 // Display the specified resource.
@@ -66,6 +75,26 @@ async function update(req, res) {
   });
 }
 
+async function updateOrder(req, res) {
+  console.log(req.body);
+  const order = await Order.update({ state: req.body.state }, { where: { id: req.body.id } });
+  res.json({ order });
+}
+
+async function updateProducts(req, res) {
+  console.log("OK");
+  console.log(req.body);
+  const isPopular = req.body.data.popular === "true";
+  await Product.update(
+    {
+      ...req.body.data,
+      categoryId: Number(req.body.data.category),
+      popular: isPopular,
+      slug: req.body.data.name,
+    },
+    { where: { id: req.body.id } },
+  );
+}
 // Remove the specified resource from storage.
 async function destroy(req, res) {
   await Admin.destroy({ where: { id: req.body.id } });
@@ -75,10 +104,14 @@ async function destroy(req, res) {
 // ...
 
 module.exports = {
+  indexOrders,
+  indexProducts,
   index,
   show,
   store,
   login,
   update,
+  updateOrder,
+  updateProducts,
   destroy,
 };
