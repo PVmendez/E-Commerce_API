@@ -19,7 +19,7 @@ async function indexProducts(req, res) {
 
 // Display the specified resource.
 async function show(req, res) {
-  const admin = await Admin.findOne({where: {id: req.params.id}});
+  const admin = await Admin.findOne({ where: { id: req.params.id } });
   res.json(admin);
 }
 
@@ -56,34 +56,31 @@ async function login(req, res) {
 
 // Update the specified resource in storage.
 async function update(req, res) {
-  console.log(req.body)
   await Admin.update(
     {
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       email: req.body.email,
-      password: req.body.password
+      password: req.body.password,
     },
     {
-      where: { id: req.params.id }
-    }
-  ).then(() => {
-    res.status(201).json("updated");
-  })
-  .catch((error) => {
-    res.status(409).json({ error });
-  });
+      where: { id: req.params.id },
+    },
+  )
+    .then(() => {
+      res.status(201).json("updated");
+    })
+    .catch((error) => {
+      res.status(409).json({ error });
+    });
 }
 
 async function updateOrder(req, res) {
-  console.log(req.body);
   const order = await Order.update({ state: req.body.state }, { where: { id: req.body.id } });
   res.json({ order });
 }
 
 async function updateProducts(req, res) {
-  console.log("OK");
-  console.log(req.body);
   const isPopular = req.body.data.popular === "true";
   await Product.update(
     {
