@@ -40,6 +40,7 @@ module.exports = (sequelize, Model, DataTypes) => {
     },
     {
       sequelize,
+      paranoid: true,
       modelName: "customer",
       hooks: {
         beforeCreate: (user) => {

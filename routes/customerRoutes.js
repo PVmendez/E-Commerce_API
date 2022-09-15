@@ -5,6 +5,7 @@ const { expressjwt: jwt } = require("express-jwt");
 // Rutas de Compradores:
 // ...
 
+customerRouter.get("/", customerController.index);
 customerRouter.post("/register", customerController.store);
 customerRouter.post("/login", customerController.login);
 customerRouter.post(

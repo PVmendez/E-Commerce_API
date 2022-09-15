@@ -3,10 +3,16 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 // Display a listing of the resource.
-async function index(req, res) {}
+async function index(req, res) {
+  const admins = await Admin.findAll();
+  res.json(admins);
+}
 
 // Display the specified resource.
-async function show(req, res) {}
+async function show(req, res) {
+  const admin = await Admin.findOne({where: {id: req.params.id}});
+  res.json(admin);
+}
 
 // Store a newly created resource in storage.
 const store = async (req, res) => {
@@ -40,10 +46,30 @@ async function login(req, res) {
 }
 
 // Update the specified resource in storage.
-async function update(req, res) {}
+async function update(req, res) {
+  console.log(req.body)
+  await Admin.update(
+    {
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      email: req.body.email,
+      password: req.body.password
+    },
+    {
+      where: { id: req.params.id }
+    }
+  ).then(() => {
+    res.status(201).json("updated");
+  })
+  .catch((error) => {
+    res.status(409).json({ error });
+  });
+}
 
 // Remove the specified resource from storage.
-async function destroy(req, res) {}
+async function destroy(req, res) {
+  await Admin.destroy({ where: { id: req.body.id } });
+}
 
 // Otros handlers...
 // ...

@@ -48,10 +48,16 @@ async function login(req, res) {
 async function payment(req, res) {
   res.json({ success: "success" });
 }
+
+async function index (req, res) {
+  const customer = await Customer.findAll();
+  res.json(customer);
+}
 // Otros handlers...
 // ...
 
 module.exports = {
+  index,
   store,
   login,
   payment,
