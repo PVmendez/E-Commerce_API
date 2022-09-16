@@ -48,19 +48,28 @@ async function update(req, res) {
   const ids = req.body.products.productsId;
   const amount = req.body.amount.productsAmount;
   const product_toBuy = ids.map((id, index) => {
+    console.log({ id: id, stockToBuy: amount[index] });
     return { id: id, stockToBuy: amount[index] };
   });
-  const promises = product_toBuy.map((condition) => {
-    return Product.update(
-      { stock: sequelize.literal(`stock - ${condition.stockToBuy}`) },
-      { where: { id: condition.id } },
-    );
+  let hasLess = [];
+  let updated;
+  const promises = product_toBuy.map(async (condition) => {
+    const producto = await Product.findOne({ where: { id: condition.id } });
+    console.log("condition", condition);
+    console.log("stock", producto);
+    if (producto.stock >= condition.stockToBuy) {
+      updated = true;
+      const newStock = producto.stock - condition.stockToBuy;
+      return Product.update({ stock: newStock }, { where: { id: condition.id } });
+    } else {
+      hasLess = [true, condition.id];
+    }
   });
   await Promise.all(promises);
   const products = await Product.findAll({ where: { id: req.body.products.productsId } });
   let productsStock = [];
   for (let i = 0; i < products.length; i++) {
-    if (products[i].stock <= 0) {
+    if (products[i].stock <= 0 && !updated) {
       productsStock.push(0);
     } else {
       productsStock.push(1);
@@ -71,6 +80,10 @@ async function update(req, res) {
       where: { id: req.body.products.productsId, stock: { [Op.lte]: 0 } },
       attributes: ["name", "stock"],
     });
+    res.json({ error: "stock agotado", product: product });
+  } else if (hasLess[0]) {
+    let productId = hasLess[1];
+    const product = await Product.findOne({ where: { id: productId } });
     res.json({ error: "stock insuficiente", product: product });
   } else {
     res.json({ success: "stock actualizado" });
