@@ -24,7 +24,7 @@ async function show(req, res) {
 }
 
 // Store a newly created resource in storage.
-const store = async (req, res) => {
+const storeAdmins = async (req, res) => {
   await Admin.create({
     firstName: req.body.user.firstname,
     lastName: req.body.user.lastname,
@@ -93,10 +93,32 @@ async function updateProducts(req, res) {
   );
 }
 // Remove the specified resource from storage.
-async function destroy(req, res) {
+async function destroyAdmins(req, res) {
   await Admin.destroy({ where: { id: req.body.id } });
 }
 
+async function destroyProducts(req, res) {
+  await Product.destroy({ where: { id: req.params.id } });
+}
+const storeProducts = async (req, res) => {
+  const isPopular = req.body.popular === "true";
+  await Product.create({
+    name: req.body.name,
+    description: req.body.description,
+    price: Number(req.body.price),
+    stock: Number(req.body.stock),
+    categoryId: Number(req.body.category),
+    image: "avatar-7.png",
+    popular: isPopular,
+    slug: req.body.name,
+  })
+    .then(() => {
+      res.status(201).json("created");
+    })
+    .catch((error) => {
+      res.status(409).json({ error });
+    });
+};
 // Otros handlers...
 // ...
 
@@ -105,10 +127,12 @@ module.exports = {
   indexProducts,
   index,
   show,
-  store,
+  storeAdmins,
+  storeProducts,
   login,
   update,
   updateOrder,
   updateProducts,
-  destroy,
+  destroyAdmins,
+  destroyProducts,
 };
