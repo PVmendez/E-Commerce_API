@@ -1,5 +1,11 @@
+const bcrypt = require("bcrypt");
 module.exports = (sequelize, Model, DataTypes) => {
-  class Admin extends Model {}
+  class Admin extends Model {
+    async comparePassword(password) {
+      const verifyPassword = await bcrypt.compare(password, this.password);
+      return verifyPassword;
+    }
+  }
 
   Admin.init(
     {
@@ -26,6 +32,22 @@ module.exports = (sequelize, Model, DataTypes) => {
       sequelize,
       paranoid: true,
       modelName: "admin",
+      hooks: {
+        beforeCreate: (user) => {
+          if (user.password) {
+            const salt = bcrypt.genSaltSync(10, "a");
+            user.password = bcrypt.hashSync(user.password, salt);
+          }
+        },
+        beforeBulkCreate: (users) => {
+          users.map((customer) => {
+            if (customer.dataValues.password) {
+              const salt = bcrypt.genSaltSync(10, "a");
+              customer.dataValues.password = bcrypt.hashSync(customer.dataValues.password, salt);
+            }
+          });
+        },
+      },
     },
   );
 
