@@ -5,16 +5,12 @@ const verifyAdmin = require("../middlewares/verifyAdmin");
 const { expressjwt: jwt } = require("express-jwt");
 // Rutas del Admin:
 // ...
-<<<<<<< HEAD
 administratorsRouter.use(
   jwt({ secret: process.env.JWT_SECRET, algorithms: ["HS256"] }),
   verifyAdmin,
 );
-administratorsRouter.delete("/delete/:id", adminController.destroy);
-=======
 
 administratorsRouter.delete("/delete/:id", adminController.destroyAdmins);
->>>>>>> cfb195c2e59f336e58227591b77c2f9b6219bd57
 administratorsRouter.patch("/update/:id", adminController.update);
 administratorsRouter.get("/orders", adminController.indexOrders);
 administratorsRouter.patch("/orders", adminController.updateOrder);
