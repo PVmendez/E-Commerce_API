@@ -1,6 +1,7 @@
 const { Product } = require("../models");
 const { Op } = require("sequelize");
 const { sequelize } = require("../models/index");
+const { mercadopago } = require("../utils/mercadopago");
 // Display a listing of the resource.
 async function show(req, res) {
   const product = await Product.findOne({
@@ -89,6 +90,49 @@ async function destroy(req, res) {}
 
 // Otros handlers...
 // ...
+async function comprar(req, res) {
+  const price = req.body.data.totalPrice;
+  const user = req.body.data.user;
+  const cart = req.body.data.items;
+  let preference = {
+    transaction_amount: price * 1.15,
+    binary_mode: true,
+    payer: {
+      name: user.firstname,
+      surname: user.lastname,
+      email: user.email,
+      address: {
+        zip_code: user.postalCode,
+        street_name: user.city,
+      },
+    },
+    items: [
+      {
+        picture_url: cart[0].product.image,
+        title: cart[0].product.name,
+        unit_price: cart[0].product.price,
+        quantity: 1,
+        description: cart[0].product.description,
+      },
+    ],
+    back_urls: {
+      success: "http://localhost:3000/",
+      failure: "http://localhost:3000/products",
+    },
+    auto_return: "approved",
+  };
+
+  mercadopago.preferences
+    .create(preference)
+    .then(function (response) {
+      res.json({
+        global: response.body.id,
+      });
+    })
+    .catch(function (err) {
+      res.send(err);
+    });
+}
 
 module.exports = {
   index,
@@ -98,4 +142,5 @@ module.exports = {
   update,
   destroy,
   random,
+  comprar,
 };

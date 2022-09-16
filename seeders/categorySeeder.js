@@ -9,9 +9,9 @@ module.exports = async () => {
     {
       id: 2,
       name: "Premium",
-    }
-  ]
+    },
+  ];
 
   await Category.bulkCreate(categories);
-  console.log("[Database] Se corrió el seeder de Categories.");
+  ("[Database] Se corrió el seeder de Categories.");
 };

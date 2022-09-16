@@ -35,5 +35,5 @@ module.exports = async () => {
   ];
 
   await Customer.bulkCreate(customer);
-  console.log("[Database] Se corrió el seeder de Customer.");
+  ("[Database] Se corrió el seeder de Customer.");
 };
