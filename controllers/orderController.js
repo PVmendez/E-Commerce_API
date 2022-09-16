@@ -18,7 +18,7 @@ async function store(req, res) {
     attributes: { exclude: ["id", "password"] },
   });
   const products = req.body;
-  await Order.create({
+  const newOrder = await Order.create({
     customerData: customer,
     products: products,
     state: "Pago",

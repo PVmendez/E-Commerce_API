@@ -43,29 +43,23 @@ async function edit(req, res) {}
 
 // Update the specified resource in storage.
 async function update(req, res) {
-  // const product = await Product.findByPk(req.params.id);
-  // console.log(product.stock);
   const ids = req.body.products.productsId;
   const amount = req.body.amount.productsAmount;
   const product_toBuy = ids.map((id, index) => {
-    console.log({ id: id, stockToBuy: amount[index] });
     return { id: id, stockToBuy: amount[index] };
   });
   let hasLess = [];
   let updated;
-  const promises = product_toBuy.map(async (condition) => {
+  product_toBuy.map(async (condition) => {
     const producto = await Product.findOne({ where: { id: condition.id } });
-    console.log("condition", condition);
-    console.log("stock", producto);
     if (producto.stock >= condition.stockToBuy) {
       updated = true;
       const newStock = producto.stock - condition.stockToBuy;
-      return Product.update({ stock: newStock }, { where: { id: condition.id } });
+      await Product.update({ stock: newStock }, { where: { id: condition.id } });
     } else {
       hasLess = [true, condition.id];
     }
   });
-  await Promise.all(promises);
   const products = await Product.findAll({ where: { id: req.body.products.productsId } });
   let productsStock = [];
   for (let i = 0; i < products.length; i++) {
