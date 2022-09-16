@@ -26,5 +26,5 @@ module.exports = async () => {
   ];
 
   await Admin.bulkCreate(admin);
-  console.log("[Database] Se corrió el seeder de Admin.");
+  ("[Database] Se corrió el seeder de Admin.");
 };
