@@ -126,12 +126,13 @@ async function comprar(req, res) {
     .create(preference)
     .then(function (response) {
       res.json({
-        global: response.body.id,
+        global: response.body.data.id,
       });
     })
     .catch(function (err) {
       res.send(err);
     });
+    
 }
 
 module.exports = {
