@@ -14,8 +14,6 @@ administratorsRouter.delete("/delete/:id", adminController.destroyAdmins);
 administratorsRouter.patch("/update/:id", adminController.update);
 administratorsRouter.get("/orders", adminController.indexOrders);
 administratorsRouter.patch("/orders", adminController.updateOrder);
-administratorsRouter.post("/register", adminController.storeAdmins);
-administratorsRouter.post("/login", adminController.login);
 administratorsRouter.get("/products", adminController.indexProducts);
 administratorsRouter.patch("/products", adminController.updateProducts);
 administratorsRouter.delete("/products/:id", adminController.destroyProducts);
