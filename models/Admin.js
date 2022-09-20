@@ -1,5 +1,10 @@
 module.exports = (sequelize, Model, DataTypes) => {
-  class Admin extends Model {}
+  class Admin extends Model {
+    async comparePassword(password) {
+      const verifyPassword = await bcrypt.compare(password, this.password);
+      return verifyPassword;
+    }
+  }
 
   Admin.init(
     {
