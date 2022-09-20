@@ -9,8 +9,9 @@ administratorsRouter.use(
   jwt({ secret: process.env.JWT_SECRET, algorithms: ["HS256"] }),
   verifyAdmin,
 );
-
+administratorsRouter.get("/verify", adminController.verified);
 administratorsRouter.delete("/delete/:id", adminController.destroyAdmins);
+
 administratorsRouter.patch("/update/:id", adminController.update);
 administratorsRouter.get("/orders", adminController.indexOrders);
 administratorsRouter.patch("/orders", adminController.updateOrder);
