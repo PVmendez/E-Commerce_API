@@ -11,7 +11,7 @@ const sequelize = new Sequelize(
     logging: false, // Para que no aparezcan mensajes en consola.
   },
 );
-
+console.log(sequelize);
 const Admin = require("./Admin")(sequelize, Model, DataTypes);
 const Customer = require("./Customer")(sequelize, Model, DataTypes);
 const Category = require("./Category")(sequelize, Model, DataTypes);
