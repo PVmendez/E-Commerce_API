@@ -20,6 +20,8 @@
     "jsonwebtoken": "^8.5.1",
     "mercadopago": "^1.5.14",
     "mysql2": "^2.3.3",
+    "nodemailer": "^6.7.8",
+    "pg": "^8.8.0",
     "sequelize": "^6.19.0",
     "sqlite3": "^5.0.8"
   },
