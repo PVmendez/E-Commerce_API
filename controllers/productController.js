@@ -17,7 +17,7 @@ async function show(req, res) {
 async function index(req, res) {
   const queries = {};
   if (req.query.popular) {
-    queries.popular = 1;
+    queries.popular = true;
   }
   if (req.query.category) {
     queries.CategoryId = req.query.category;
