@@ -6,8 +6,8 @@ const nodemailer = require("nodemailer");
 const store = async (req, res) => {
   const customer = await Customer.findOne({ where: { email: req.body.user.email } });
 
-  if (customer) {
-    return res.status(404).json({ msg: "User exist" });
+  if (!customer) {
+    return res.status(404).json({ msg: "User already exists" });
   }
 
   await Customer.create({
@@ -42,22 +42,16 @@ async function login(req, res) {
     { id: customer.id, firstName: customer.firstName },
     process.env.JWT_SECRET,
   );
-  res.json({ token });
+  res.status(200).json({ token });
 }
 
 async function payment(req, res) {
-  res.json({ success: "success" });
+  res.status(200).json({ success: "success" });
 }
 
 async function index(req, res) {
-  const customers = await Customer.findAll();
-  res.json(customers);
-}
-
-async function show(req, res) {
-  console.log(req.body);
-  const customer = await Customer.findOne({ where: { email: req.body.userStore.email } });
-  res.json(customer);
+  const customer = await Customer.findAll();
+  res.status(200).json(customer);
 }
 
 async function update(req, res) {
