@@ -2,6 +2,8 @@ const { Admin, Order, Product, Category } = require("../models");
 const jwt = require("jsonwebtoken");
 const formidable = require("formidable");
 const path = require("path");
+const { createClient } = require("@supabase/supabase-js");
+const supabase = createClient(process.env.PROYECT_URL, process.env.PROYECT_API_KEY);
 
 // Display a listing of the resource.
 async function verified(req, res) {
@@ -92,6 +94,14 @@ async function updateProducts(req, res) {
     keepExtensions: true,
   });
   form.parse(req, async (err, fields, files) => {
+    const fileName = files.image.newFilename;
+    const { data, error } = await supabase.storage
+      .from("psfe-commerce")
+      .upload(fileName, files.image, {
+        cacheControl: "3600",
+        upsert: false,
+      });
+
     const isPopular = fields.popular === "true";
     if (files.image.newFilename) {
       await Product.update(
