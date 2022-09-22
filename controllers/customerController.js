@@ -107,6 +107,12 @@ async function update(req, res) {
   }
 }
 
+async function show(req, res) {
+  console.log(req.body);
+  const customer = await Customer.findOne({ where: { email: req.body.userStore.email } });
+  res.json(customer);
+}
+
 async function sendEmail(req, res) {
   let transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
@@ -137,9 +143,9 @@ async function sendEmail(req, res) {
 
 module.exports = {
   index,
-  show,
   update,
   store,
+  show,
   login,
   payment,
   sendEmail,
