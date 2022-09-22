@@ -10,7 +10,7 @@ async function show(req, res) {
     },
   });
 
-  res.json(product);
+  res.status(200).json(product);
 }
 
 // Display the specified resource.
@@ -23,7 +23,7 @@ async function index(req, res) {
     queries.CategoryId = req.query.category;
   }
   const products = await Product.findAll({ where: queries });
-  res.json(products);
+  res.status(200).json(products);
 }
 
 // Show the form for creating a new resource
@@ -33,7 +33,7 @@ async function random(req, res) {
     order: sequelize.random(),
     limit: 4,
   });
-  res.json(products);
+  res.status(200).json(products);
 }
 
 // Store a newly created resource in storage.
@@ -75,13 +75,13 @@ async function update(req, res) {
       where: { id: req.body.products.productsId, stock: { [Op.lte]: 0 } },
       attributes: ["name", "stock"],
     });
-    res.json({ error: "stock agotado", product: product });
+    res.status(404).json({ error: "stock agotado", product: product });
   } else if (hasLess[0]) {
     let productId = hasLess[1];
     const product = await Product.findOne({ where: { id: productId } });
-    res.json({ error: "stock insuficiente", product: product });
+    res.status(404).json({ error: "stock insuficiente", product: product });
   } else {
-    res.json({ success: "stock actualizado" });
+    res.status(200).json({ success: "stock actualizado" });
   }
 }
 
@@ -132,7 +132,6 @@ async function comprar(req, res) {
     .catch(function (err) {
       res.send(err);
     });
-    
 }
 
 module.exports = {
