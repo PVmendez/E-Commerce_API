@@ -90,7 +90,6 @@ async function updateOrder(req, res) {
 async function updateProducts(req, res) {
   const form = formidable({
     multiples: true,
-    uploadDir: path.join(__dirname, "../public/img"),
     keepExtensions: true,
   });
   form.parse(req, async (err, fields, files) => {
