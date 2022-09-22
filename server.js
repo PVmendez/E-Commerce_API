@@ -14,7 +14,7 @@ app.use(cors());
 
 routes(app);
 
-// dbInitialSetup(); // Crea tablas e inserta datos de prueba.
+console.log("started");
 
 app.listen(APP_PORT, () => {
   `\n[Express] Servidor corriendo en el puerto ${APP_PORT}.`;

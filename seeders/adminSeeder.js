@@ -23,6 +23,13 @@ module.exports = async () => {
       email: "sofia.valdez@gmail.com",
       password: "9999",
     },
+    {
+      id: 4,
+      firstName: "admin",
+      lastName: "admin",
+      email: "admin@admin",
+      password: "admin",
+    },
   ];
 
   await Admin.bulkCreate(admin);

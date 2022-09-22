@@ -6,11 +6,12 @@ const sequelize = new Sequelize(
   process.env.DB_PASSWORD, // Ej: root
   {
     host: process.env.DB_HOST, // Ej: 127.0.0.1
-    dialect: process.env.DB_CONNECTION, // Ej: mysql
+    dialect: process.env.DB_CONNECTION,
+    dialectModule: require("pg"),
     logging: false, // Para que no aparezcan mensajes en consola.
   },
 );
-
+console.log(sequelize);
 const Admin = require("./Admin")(sequelize, Model, DataTypes);
 const Customer = require("./Customer")(sequelize, Model, DataTypes);
 const Category = require("./Category")(sequelize, Model, DataTypes);

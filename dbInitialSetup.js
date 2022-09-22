@@ -1,5 +1,7 @@
+require("dotenv").config();
 const db = require("./models");
-module.exports = async () => {
+
+async function seeders () {
   // Crear tablas:
   await db.sequelize.sync({ force: true });
   ("[Database] ¡Las tablas fueron creadas!");
@@ -11,3 +13,5 @@ module.exports = async () => {
   await require("./seeders/customerSeeder")();
   ("[Database] ¡Los datos de prueba fueron insertados!");
 };
+
+seeders();

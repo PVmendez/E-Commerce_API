@@ -1,7 +1,12 @@
 const { Admin, Order, Product, Category } = require("../models");
 const jwt = require("jsonwebtoken");
+const formidable = require("formidable");
+const path = require("path");
 
 // Display a listing of the resource.
+async function verified(req, res) {
+  res.json({ success: "success" });
+}
 async function index(req, res) {
   const admins = await Admin.findAll();
   res.json(admins);
@@ -81,16 +86,26 @@ async function updateOrder(req, res) {
 }
 
 async function updateProducts(req, res) {
-  const isPopular = req.body.data.popular === "true";
-  await Product.update(
-    {
-      ...req.body.data,
-      categoryId: Number(req.body.data.category),
-      popular: isPopular,
-      slug: req.body.data.name,
-    },
-    { where: { id: req.body.id } },
-  );
+  const form = formidable({
+    multiples: true,
+    uploadDir: path.join(__dirname, "../public/img"),
+    keepExtensions: true,
+  });
+  form.parse(req, async (err, fields, files) => {
+    const isPopular = fields.popular === "true";
+    await Product.update(
+      {
+        name: fields.name,
+        description: fields.description,
+        price: fields.price,
+        stock: fields.stock,
+        categoryId: fields.categoryId,
+        popular: isPopular,
+        image: files.image.newFilename,
+      },
+      { where: { id: fields.id } },
+    );
+  });
 }
 // Remove the specified resource from storage.
 async function destroyAdmins(req, res) {
@@ -135,4 +150,5 @@ module.exports = {
   updateProducts,
   destroyAdmins,
   destroyProducts,
+  verified,
 };
