@@ -108,7 +108,6 @@ async function update(req, res) {
 }
 
 async function show(req, res) {
-  console.log(req.body);
   const customer = await Customer.findOne({ where: { email: req.body.userStore.email } });
   res.json(customer);
 }
