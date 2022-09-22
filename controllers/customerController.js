@@ -55,7 +55,7 @@ async function index(req, res) {
 }
 
 async function update(req, res) {
-  const customer = await Customer.finOne({ where: { id: req.body.user.id } });
+  const customer = await Customer.findOne({ where: { id: req.body.user.id } });
 
   if (req.body.user.email) {
     if (!customer.email === req.body.user.email) {
@@ -107,6 +107,11 @@ async function update(req, res) {
   }
 }
 
+async function show(req, res) {
+  const customer = await Customer.findOne({ where: { email: req.body.userStore.email } });
+  res.json(customer);
+}
+
 async function sendEmail(req, res) {
   let transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
@@ -120,8 +125,8 @@ async function sendEmail(req, res) {
 
   let info = await transporter.sendMail({
     from: "Remitente",
-    to: req.body.email,
-    subject: "Gracias por suscribirte ✔",
+    to: req.body.user.email,
+    subject: `Gracias por suscribirte ${req.body.user.name} ✔`,
     text: "Recibiras todas las nuestras novedades",
   });
 
@@ -137,9 +142,9 @@ async function sendEmail(req, res) {
 
 module.exports = {
   index,
-  show,
   update,
   store,
+  show,
   login,
   payment,
   sendEmail,
