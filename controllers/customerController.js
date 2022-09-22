@@ -61,7 +61,7 @@ async function show(req, res) {
 }
 
 async function update(req, res) {
-  const customer = await Customer.finOne({ where: { id: req.body.user.id } });
+  const customer = await Customer.findOne({ where: { id: req.body.user.id } });
 
   if (req.body.user.email) {
     if (!customer.email === req.body.user.email) {
@@ -126,8 +126,8 @@ async function sendEmail(req, res) {
 
   let info = await transporter.sendMail({
     from: "Remitente",
-    to: req.body.email,
-    subject: "Gracias por suscribirte ✔",
+    to: req.body.user.email,
+    subject: `Gracias por suscribirte ${req.body.user.name} ✔`,
     text: "Recibiras todas las nuestras novedades",
   });
 

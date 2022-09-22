@@ -22,6 +22,7 @@ async function index(req, res) {
   if (req.query.category) {
     queries.CategoryId = req.query.category;
   }
+  console.log(queries)
   const products = await Product.findAll({ where: queries });
   res.json(products);
 }
