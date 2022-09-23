@@ -4,6 +4,7 @@ const formidable = require("formidable");
 const path = require("path");
 const { createClient } = require("@supabase/supabase-js");
 const supabase = createClient(process.env.PROYECT_URL, process.env.PROYECT_API_KEY);
+const fs = require("fs");
 
 // Display a listing of the resource.
 async function verified(req, res) {
@@ -93,13 +94,16 @@ async function updateProducts(req, res) {
     keepExtensions: true,
   });
   form.parse(req, async (err, fields, files) => {
+    console.log("ok", files);
     if (files.image) {
-      const fileName = files.image.newFilename;
+      const ext = path.extname(files.image.filepath);
+      const newFileName = `image_${Date.now()}${ext}`;
       const { data, error } = await supabase.storage
         .from("psfe-commerce")
-        .upload(fileName, files.image, {
+        .upload(newFileName, fs.createReadStream(files.image.filepath), {
           cacheControl: "3600",
           upsert: false,
+          contentType: files.image.type,
         });
     }
 
@@ -113,7 +117,7 @@ async function updateProducts(req, res) {
           stock: fields.stock,
           categoryId: fields.categoryId,
           popular: isPopular,
-          image: files.image.newFilename,
+          image: newFileName,
         },
         { where: { id: fields.id } },
       );
@@ -147,22 +151,49 @@ async function destroyProducts(req, res) {
 const storeProducts = async (req, res) => {
   const form = formidable({
     multiples: true,
-    uploadDir: path.join(__dirname, "../public/img"),
     keepExtensions: true,
   });
   form.parse(req, async (err, fields, files) => {
     const isPopular = fields.popular === "true";
-    await Product.create({
-      name: fields.name,
-      description: fields.description,
-      price: fields.price,
-      stock: fields.stock,
-      categoryId: fields.categoryId,
-      popular: isPopular,
-      image: files.image.newFilename,
-    });
+    if (files.image) {
+      const ext = path.extname(files.image.filepath);
+      const newFileName = `image_${Date.now()}${ext}`;
+      const { data, error } = await supabase.storage
+        .from("psfe-commerce")
+        .upload(newFileName, fs.createReadStream(files.image.filepath), {
+          cacheControl: "3600",
+          upsert: false,
+          contentType: files.image.type,
+        });
+      const products = await Product.findAll();
+      console.log(products);
+      console.log(products[0]);
+      await Product.create({
+        name: fields.name,
+        description: fields.description,
+        price: fields.price,
+        stock: fields.stock,
+        categoryId: fields.categoryId,
+        popular: isPopular,
+        image: newFileName,
+        slug: fields.name,
+      });
+      res.status(200);
+    }
+
+    if (!files.image) {
+      await Product.create({
+        name: fields.name,
+        description: fields.description,
+        price: fields.price,
+        stock: fields.stock,
+        categoryId: fields.categoryId,
+        popular: isPopular,
+        slug: fields.name,
+      });
+    }
+    res.status(200);
   });
-  res.status(200);
 };
 // Otros handlers...
 // ...

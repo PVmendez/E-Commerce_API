@@ -45,6 +45,7 @@ async function edit(req, res) {}
 
 // Update the specified resource in storage.
 async function update(req, res) {
+  console.log(req.body);
   const ids = req.body.products.productsId;
   const amount = req.body.amount.productsAmount;
   const product_toBuy = ids.map((id, index) => {
@@ -76,13 +77,13 @@ async function update(req, res) {
       where: { id: req.body.products.productsId, stock: { [Op.lte]: 0 } },
       attributes: ["name", "stock"],
     });
-    res.status(404).json({ error: "stock agotado", product: product });
+    return res.status(404).json({ error: "stock agotado", product: product });
   } else if (hasLess[0]) {
     let productId = hasLess[1];
     const product = await Product.findOne({ where: { id: productId } });
-    res.status(404).json({ error: "stock insuficiente", product: product });
+    return res.status(404).json({ error: "stock insuficiente", product: product });
   } else {
-    res.status(200).json({ success: "stock actualizado" });
+    return res.status(200).json({ success: "stock actualizado" });
   }
 }
 
