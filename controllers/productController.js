@@ -20,7 +20,7 @@ async function index(req, res) {
     queries.popular = true;
   }
   if (req.query.category) {
-    queries.CategoryId = req.query.category;
+    queries.categoryId = req.query.category;
   }
   console.log(queries)
   const products = await Product.findAll({ where: queries });
