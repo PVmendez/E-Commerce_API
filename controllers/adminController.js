@@ -93,16 +93,18 @@ async function updateProducts(req, res) {
     keepExtensions: true,
   });
   form.parse(req, async (err, fields, files) => {
-    const fileName = files.image.newFilename;
-    const { data, error } = await supabase.storage
-      .from("psfe-commerce")
-      .upload(fileName, files.image, {
-        cacheControl: "3600",
-        upsert: false,
-      });
+    if (files.image) {
+      const fileName = files.image.newFilename;
+      const { data, error } = await supabase.storage
+        .from("psfe-commerce")
+        .upload(fileName, files.image, {
+          cacheControl: "3600",
+          upsert: false,
+        });
+    }
 
     const isPopular = fields.popular === "true";
-    if (files.image.newFilename) {
+    if (files.image) {
       await Product.update(
         {
           name: fields.name,
