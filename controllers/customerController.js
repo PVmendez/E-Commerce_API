@@ -55,37 +55,39 @@ async function index(req, res) {
 }
 
 async function update(req, res) {
-  const customer = await Customer.findOne({ where: { id: req.body.user.id } });
+  const customer = await Customer.findOne({ where: { id: req.auth.id } });
 
-  if (req.body.user.email) {
-    if (!customer.email === req.body.user.email) {
+  console.log(req.body)
+  if (req.body.email) {
+    if (!customer.email === req.body.email) {
       await Admin.update(
         {
-          email: req.body.user.email,
+          email: req.body.email,
         },
         {
-          where: { id: req.body.user.id },
+          where: { id: req.body.id },
+        },
+      );
+    }
+  }
+  
+
+  if (req.body.address) {
+    if (!customer.address === req.body.address) {
+      await Admin.update(
+        {
+          address: req.body.address,
+        },
+        {
+          where: { id: req.body.id },
         },
       );
     }
   }
 
-  if (req.body.user.address) {
-    if (!customer.address === req.body.user.address) {
-      await Admin.update(
-        {
-          address: req.body.user.address,
-        },
-        {
-          where: { id: req.body.user.id },
-        },
-      );
-    }
-  }
-
-  if (req.body.user.newPassword) {
-    if (!costumer.password === req.body.user.newPassword) {
-      if (!req.body.user.newPassword === req.body.user.confirmPassword) {
+  if (req.body.newPassword) {
+    if (!costumer.password === req.body.newPassword) {
+      if (!req.body.newPassword === req.body.confirmPassword) {
         await Admin.update(
           {
             email: req.body.email,
@@ -93,7 +95,7 @@ async function update(req, res) {
             password: req.body.password,
           },
           {
-            where: { id: req.params.id },
+            where: { id: req.auth.id },
           },
         )
           .then(() => {
@@ -108,7 +110,7 @@ async function update(req, res) {
 }
 
 async function show(req, res) {
-  const customer = await Customer.findOne({ where: { email: req.body.userStore.email } });
+  const customer = await Customer.findOne({ where: { id: req.auth.id } });
   res.json(customer);
 }
 

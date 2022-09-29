@@ -5,21 +5,68 @@ const verifyAdmin = require("../middlewares/verifyAdmin");
 const { expressjwt: jwt } = require("express-jwt");
 // Rutas del Admin:
 // ...
-administratorsRouter.use(
+
+administratorsRouter.get(
+  "/verify",
   jwt({ secret: process.env.JWT_SECRET, algorithms: ["HS256"] }),
   verifyAdmin,
+  adminController.verified,
 );
-administratorsRouter.get("/verify", adminController.verified);
-administratorsRouter.delete("/delete/:id", adminController.destroyAdmins);
+administratorsRouter.delete(
+  "/delete/:id",
+  jwt({ secret: process.env.JWT_SECRET, algorithms: ["HS256"] }),
+  verifyAdmin,
+  adminController.destroyAdmins,
+);
 
-administratorsRouter.patch("/update/:id", adminController.update);
-administratorsRouter.get("/orders", adminController.indexOrders);
-administratorsRouter.patch("/orders", adminController.updateOrder);
-administratorsRouter.get("/products", adminController.indexProducts);
-administratorsRouter.patch("/products", adminController.updateProducts);
-administratorsRouter.delete("/products/:id", adminController.destroyProducts);
-administratorsRouter.post("/products", adminController.storeProducts);
+administratorsRouter.patch(
+  "/update/:id",
+  jwt({ secret: process.env.JWT_SECRET, algorithms: ["HS256"] }),
+  verifyAdmin,
+  adminController.update,
+);
+administratorsRouter.get(
+  "/orders",
+  jwt({ secret: process.env.JWT_SECRET, algorithms: ["HS256"] }),
+  verifyAdmin,
+  adminController.indexOrders,
+);
+administratorsRouter.patch(
+  "/orders",
+  jwt({ secret: process.env.JWT_SECRET, algorithms: ["HS256"] }),
+  verifyAdmin,
+  adminController.updateOrder,
+);
+administratorsRouter.get(
+  "/products",
+  jwt({ secret: process.env.JWT_SECRET, algorithms: ["HS256"] }),
+  verifyAdmin,
+  adminController.indexProducts,
+);
+administratorsRouter.patch(
+  "/products",
+  jwt({ secret: process.env.JWT_SECRET, algorithms: ["HS256"] }),
+  verifyAdmin,
+  adminController.updateProducts,
+);
+administratorsRouter.delete(
+  "/products/:id",
+  jwt({ secret: process.env.JWT_SECRET, algorithms: ["HS256"] }),
+  verifyAdmin,
+  adminController.destroyProducts,
+);
+administratorsRouter.post(
+  "/products",
+  jwt({ secret: process.env.JWT_SECRET, algorithms: ["HS256"] }),
+  verifyAdmin,
+  adminController.storeProducts,
+);
 administratorsRouter.get("/", adminController.index);
-administratorsRouter.get("/:id", adminController.show);
+administratorsRouter.get(
+  "/:id",
+  jwt({ secret: process.env.JWT_SECRET, algorithms: ["HS256"] }),
+  verifyAdmin,
+  adminController.show,
+);
 
 module.exports = administratorsRouter;

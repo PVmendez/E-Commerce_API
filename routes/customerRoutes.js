@@ -6,8 +6,8 @@ const { expressjwt: jwt } = require("express-jwt");
 // ...
 
 customerRouter.get("/", customerController.index);
-customerRouter.get("/one", customerController.show);
-customerRouter.patch("/update", customerController.update);
+customerRouter.get("/one",jwt({ secret: process.env.JWT_SECRET, algorithms: ["HS256"] }), customerController.show);
+customerRouter.patch("/update",jwt({ secret: process.env.JWT_SECRET, algorithms: ["HS256"] }), customerController.update);
 customerRouter.post("/register", customerController.store);
 customerRouter.post("/login", customerController.login);
 customerRouter.post(

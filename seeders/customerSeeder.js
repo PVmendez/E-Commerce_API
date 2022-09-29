@@ -32,6 +32,16 @@ module.exports = async () => {
       phone: "091464567",
       orderList: {},
     },
+    {
+      id: 4,
+      firstName: "customer",
+      lastName: "customer",
+      email: "customer@gmail.com",
+      password: "customer",
+      address: "customer",
+      phone: "091111111",
+      orderList: {},
+    },
   ];
 
   await Customer.bulkCreate(customer);
