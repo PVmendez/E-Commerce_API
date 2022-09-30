@@ -5,13 +5,18 @@ const path = require("path");
 const { createClient } = require("@supabase/supabase-js");
 const supabase = createClient(process.env.PROYECT_URL, process.env.PROYECT_API_KEY);
 const fs = require("fs");
+const { Op } = require("sequelize");
 
 // Display a listing of the resource.
 async function verified(req, res) {
   res.status(200).json({ success: "success" });
 }
 async function index(req, res) {
-  const admins = await Admin.findAll();
+  const admins = await Admin.findAll({
+    where: {
+      id: { [Op.ne]: req.auth.id },
+    },
+  });
   res.status(200).json(admins);
 }
 
@@ -48,6 +53,9 @@ const storeAdmins = async (req, res) => {
 };
 
 async function login(req, res) {
+  console.log(req.body.user.email);
+  const admins = await Admin.findAll();
+  console.log(admins);
   const admin = await Admin.findOne({ where: { email: req.body.user.email } });
 
   if (!admin) {
@@ -155,6 +163,7 @@ const storeProducts = async (req, res) => {
   });
   form.parse(req, async (err, fields, files) => {
     const isPopular = fields.popular === "true";
+    const products = await Product.findAll();
     if (files.image) {
       const ext = path.extname(files.image.filepath);
       const newFileName = `image_${Date.now()}${ext}`;
@@ -165,15 +174,13 @@ const storeProducts = async (req, res) => {
           upsert: false,
           contentType: files.image.type,
         });
-      const products = await Product.findAll();
-      console.log(products);
-      console.log(products[0]);
       await Product.create({
+        id: products.length + 1,
         name: fields.name,
         description: fields.description,
         price: fields.price,
         stock: fields.stock,
-        categoryId: fields.categoryId,
+        categoryId: fields.category,
         popular: isPopular,
         image: newFileName,
         slug: fields.name,
@@ -183,11 +190,12 @@ const storeProducts = async (req, res) => {
 
     if (!files.image) {
       await Product.create({
+        id: products.length + 1,
         name: fields.name,
         description: fields.description,
         price: fields.price,
         stock: fields.stock,
-        categoryId: fields.categoryId,
+        categoryId: fields.category,
         popular: isPopular,
         slug: fields.name,
       });
