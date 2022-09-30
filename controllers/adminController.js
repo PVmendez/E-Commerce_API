@@ -163,7 +163,7 @@ const storeProducts = async (req, res) => {
   });
   form.parse(req, async (err, fields, files) => {
     const isPopular = fields.popular === "true";
-    const products = await Product.findAll();
+    const products = await Product.findAll({ order: [["id", "DESC"]], limit: 1 });
     if (files.image) {
       const ext = path.extname(files.image.filepath);
       const newFileName = `image_${Date.now()}${ext}`;
@@ -175,7 +175,7 @@ const storeProducts = async (req, res) => {
           contentType: files.image.type,
         });
       await Product.create({
-        id: products.length + 1,
+        id: Number(products[0].id) + 1,
         name: fields.name,
         description: fields.description,
         price: fields.price,
@@ -190,7 +190,7 @@ const storeProducts = async (req, res) => {
 
     if (!files.image) {
       await Product.create({
-        id: products.length + 1,
+        id: Number(products[0].id) + 1,
         name: fields.name,
         description: fields.description,
         price: fields.price,
